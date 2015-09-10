@@ -7,7 +7,20 @@ public class MessageFunctions : MonoBehaviour {
 
 	public void ShowMessage (string message)
 	{
+
 		text.text = message;
+
+
+	}
+
+	public void ShowMessage (string message, bool bold)
+	{
+		
+		text.text = message;
+		if (bold)
+			text.fontStyle = FontStyle.Bold;
+		
+		
 	}
 
 	public void HideMessage () {

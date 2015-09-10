@@ -23,6 +23,7 @@ public class StockTickerFunctions : MonoBehaviour {
         confirmTextObj = GameObject.Find ("ConfirmationText");
         confirmText = confirmTextObj.GetComponent<Text>();
 
+
         buyButtonObj = GameObject.Find ("Buy Button");
         buyButton = buyButtonObj.GetComponent<Button>();
         buyButton.onClick.AddListener(delegate { confirmText.text="Bought shares."; });

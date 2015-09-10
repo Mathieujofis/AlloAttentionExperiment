@@ -10,6 +10,7 @@ public class ExperimentController : MonoBehaviour {
 	
 	public int numShapes = 10;
 	public int numShapesThatScale = 2;
+    public int experiment = 1;
 	float triangleScale = .5f;
 	float squareScale = .2f;
 	float circleScale = .5f;
@@ -20,6 +21,9 @@ public class ExperimentController : MonoBehaviour {
 
 	System.IO.StreamWriter file;
 	// Use this for initialization
+
+    GameObject canvasObj;
+    Canvas canvas;
 	void Start () {
 		shapes= new List<GameObject>();
 
@@ -29,7 +33,13 @@ public class ExperimentController : MonoBehaviour {
 
 		// Write the string to a file.
 		file = new System.IO.StreamWriter(Application.dataPath + "/ExperimentData/test.txt");
-		
+
+        canvasObj = GameObject.Find ("Canvas");
+        //get canvas object
+        if (experiment == 1)
+            canvasObj.SetActive(false);
+
+        //canvas = tickerTextObj.GetComponent<Text>();
 	}
 
 	void OnApplicationQuit()
@@ -40,37 +50,42 @@ public class ExperimentController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (timeLimit > 0) 
-		{
-			timeLimit -= Time.deltaTime;
-		} 
-		else 
-		{
-			increased=false;
-			createShapes (showShapes);
-			showShapes++;
-			if(showShapes%4==0)
-				showShapes = 0;
+        if (experiment == 1)
+        {
+            if (timeLimit > 0) 
+            {
+                timeLimit -= Time.deltaTime;
+            } 
+            else 
+            {
+                increased=false;
+                createShapes (showShapes);
+                //showShapes++;
+				showShapes = Random.Range(0, 3);
+//                if(showShapes%3==0)
+//                    showShapes = 0;
+                
+                Debug.Log(showShapes);
+                timeLimit = 1.0f;
+                
+            }
+            
+            if(timeLimit < 0.5 && !increased) 
+            {
+                //decide if size will be increased/decreased
+                int increaseSize = Random.Range(0, 2);
+                if (increaseSize == 1)
+                {
+                    Debug.Log ("increase!");
+                    increaseShapeSize();
+                }
+                
+                increased = true;
+                //file.WriteLine("Increased\r");
+            }
 
-			Debug.Log(showShapes);
-			timeLimit = 1.0f;
+        }
 
-		}
-
-		if(timeLimit < 0.5 && !increased) 
-		{
-			//decide if size will be increased/decreased
-			int increaseSize = Random.Range(0, 2);
-			if (increaseSize == 1)
-			{
-				Debug.Log ("increase!");
-				increaseShapeSize();
-			}
-
-			increased = true;
-			//file.WriteLine("Increased\r");
-		}
-	
 	}
 
 	void increaseShapeSize()

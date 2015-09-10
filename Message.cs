@@ -10,25 +10,46 @@
 using System;
 using UnityEngine;
 
-    public class Message : MonoBehaviour
+public class Message : MonoBehaviour
+{
+    string message;
+    bool targetMessage;
+
+    string chatMessage1;
+    string chatMessage2;
+    public Message(string message, bool targetMessage)
     {
-        string message;
-        bool targetMessage;
-        public Message(string message, bool targetMessage)
-        {
-            this.message = message;
-            this.targetMessage = targetMessage;
-        }
-
-        public string getMessage()
-        {
-            return message;
-        }
-
-        public bool getTargetMessage()
-        {
-            return targetMessage;
-        }
+        this.message = message;
+        this.targetMessage = targetMessage;
     }
+    public Message(string message1, string message2)
+    {
+        this.chatMessage1 = message1;
+        this.chatMessage2 = message2;
+    }
+
+    public string getMessage()
+    {
+        return message;
+    }
+
+    public bool getTargetMessage()
+    {
+        return targetMessage;
+    }
+
+
+    public string getMessage1()
+    {
+        return chatMessage1;
+    }
+
+    public string getMessage2()
+    {
+        return chatMessage2;
+    }
+
+
+}
 
 
