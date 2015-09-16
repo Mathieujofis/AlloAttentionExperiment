@@ -34,36 +34,27 @@ public class StockTickerFunctions : MonoBehaviour {
 
         tick = Random.Range(9.0F, 18.0F);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-
-		timeLimit -= Time.deltaTime;
-
-		if (timeLimit <= 0) 
+	public void doTurn()
+	{
+		float prevTick = tick;
+		
+		tick = Random.Range(9.0F, 18.0F);
+		float percentChange = ((tick - prevTick)/tick)*100;
+		if (percentChange > 0)
 		{
-            float prevTick = tick;
-
-            tick = Random.Range(9.0F, 18.0F);
-            float percentChange = ((tick - prevTick)/tick)*100;
-            if (percentChange > 0)
-            {
-                tickerText.color = Color.green;
-                tickerText.text = "LKSY: " + tick.ToString("F2") + " (+" + percentChange.ToString("F2")+ "%)";
-               
-            }
-            else
-            {
-                tickerText.color = Color.red;
-                tickerText.text = "LKSY: " + tick.ToString("F2") + " (" + percentChange.ToString("F2")+ "%)";
-            }
-
-
-            confirmText.text="";
-			timeLimit = 4;
-
+			tickerText.color = Color.green;
+			tickerText.text = "LKSY: " + tick.ToString("F2") + " (+" + percentChange.ToString("F2")+ "%)";
+			
 		}
-
-	
+		else
+		{
+			tickerText.color = Color.red;
+			tickerText.text = "LKSY: " + tick.ToString("F2") + " (" + percentChange.ToString("F2")+ "%)";
+		}
+		
+		
+		confirmText.text="";
+		timeLimit = 4;
 	}
+
 }

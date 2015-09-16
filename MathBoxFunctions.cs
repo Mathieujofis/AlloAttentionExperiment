@@ -51,11 +51,10 @@ public class MathBoxFunctions : MonoBehaviour {
 
 		answerButton3Obj = GameObject.Find ("answerButtonThree");
 		answerButton3 = answerButton3Obj.GetComponent<Button>();
-		answerButton3.onClick.AddListener(delegate { submitText.text="Answer recorded3 ."; });
+		answerButton3.onClick.AddListener(delegate { submitText.text="Answer recorded3."; });
 
 		answerButton1TextObj = GameObject.Find ("answerButton1Text");
-		answerButton1Text = answerButton1TextObj.GetComponent<Text>();
-		answerButton1Text.text = "button 1";
+		answerButton1Text = answerButton1TextObj.GetComponent<Text>();;
 
 		answerButton2TextObj = GameObject.Find ("answerButton2Text");
 		answerButton2Text = answerButton2TextObj.GetComponent<Text>();
@@ -66,72 +65,56 @@ public class MathBoxFunctions : MonoBehaviour {
 
         //mathInputFunctions = (MathInputHelper)textInput.GetComponent(typeof(MathInputHelper));
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-//        if (Input.GetKeyDown(KeyCode.Return))
-//        {
-//            if(mathInputFunctions.getSelectedState())
-//            {
-//                submitText.text="Answer recorded.";
-//                textInput.text = "";
-//            }
-//        }
+	public void doTurn()
+	{
 
-
-
-
-        timeLimit -= Time.deltaTime;
-        
-        if (timeLimit <= 0) 
-        {
-            int prevNumber = number;
-            
-            number = Random.Range(0, 20);
-
-			mathText.text = number.ToString();
-
-            submitText.text="";
-            timeLimit = 4;
-
-			if (provideAnswer)
-			{
-				int sum = prevNumber + number;
-
-				int randAns = Random.Range(sum-5, sum+5);
-				while(randAns == sum)
-						randAns = Random.Range(sum-5, sum+5);
-
-				int randAns2 = Random.Range(sum-5, sum+5);
-				while(randAns2 == sum || randAns2 == randAns)
-					randAns2 = Random.Range(sum-5, sum+5);
-
-				int randAns3 = Random.Range(sum-5, sum+5);
-				while(randAns3 == sum || randAns3 == randAns || randAns3 == randAns2)
-					randAns3 = Random.Range(sum-5, sum+5);
-
-				answerButton1Text.text = randAns.ToString("F2");
-				answerButton2Text.text = randAns2.ToString("F2");
-				answerButton3Text.text = randAns3.ToString("F2");
-
-				int pickButton = Random.Range(0,3);
-				if(pickButton == 0)
-					answerButton1Text.text = sum.ToString("F2") + "!";
-				else if(pickButton == 1)
-					answerButton2Text.text = sum.ToString("F2") + "!";
-				else if(pickButton == 2)
-					answerButton3Text.text = sum.ToString("F2") + "!";
-			}
-			else
-			{
-				answerButton1Text.text = "";
-				answerButton2Text.text = "";
-				answerButton3Text.text = "";
-			}
-
-			provideAnswer = !provideAnswer;
-        }
+		int prevNumber = number;
+		
+		number = Random.Range(0, 20);
+		
+		mathText.text = number.ToString();
+		
+		submitText.text="";
+		timeLimit = 4;
+		
+		if (provideAnswer)
+		{
+			int sum = prevNumber + number;
+			
+			int randAns = Random.Range(sum-5, sum+5);
+			while(randAns == sum)
+				randAns = Random.Range(sum-5, sum+5);
+			
+			int randAns2 = Random.Range(sum-5, sum+5);
+			while(randAns2 == sum || randAns2 == randAns)
+				randAns2 = Random.Range(sum-5, sum+5);
+			
+			int randAns3 = Random.Range(sum-5, sum+5);
+			while(randAns3 == sum || randAns3 == randAns || randAns3 == randAns2)
+				randAns3 = Random.Range(sum-5, sum+5);
+			
+			answerButton1Text.text = randAns.ToString("F2");
+			answerButton2Text.text = randAns2.ToString("F2");
+			answerButton3Text.text = randAns3.ToString("F2");
+			
+			int pickButton = Random.Range(0,3);
+			if(pickButton == 0)
+				answerButton1Text.text = sum.ToString("F2") + "!";
+			else if(pickButton == 1)
+				answerButton2Text.text = sum.ToString("F2") + "!";
+			else if(pickButton == 2)
+				answerButton3Text.text = sum.ToString("F2") + "!";
+		}
+		else
+		{
+			answerButton1Text.text = "";
+			answerButton2Text.text = "";
+			answerButton3Text.text = "";
+		}
+		
+		provideAnswer = !provideAnswer;
 
 	}
+
 }

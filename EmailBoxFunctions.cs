@@ -30,21 +30,11 @@ public class EmailBoxFunctions : MonoBehaviour {
 
     }
 
+	public void doTurn()
+	{
+		ShowEmailMessage();
+	}
 
-    void Update () 
-    {
-
-        timeLimit -= Time.deltaTime;
-        
-        if (timeLimit <= 0)
-        {
-            ShowEmailMessage();
-            timeLimit = 4;
-
-			//titleText.color = Color.red;
-        }
-
-    }
 	
 	public void ShowEmailMessage ()
 	{

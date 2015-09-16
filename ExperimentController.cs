@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine.UI;
 
 public class ExperimentController : MonoBehaviour {
 
@@ -19,6 +20,14 @@ public class ExperimentController : MonoBehaviour {
 	int showShapes;
 	float timeLimit;
 
+	StockTickerFunctions stockTickerScript;
+	Image stockPanelImage;
+	MathBoxFunctions mathBoxScript;
+	Image mathPanelImage;
+	EmailBoxFunctions emailBoxScript;
+	Image emailPanelImage;
+
+
 	System.IO.StreamWriter file;
 	// Use this for initialization
 
@@ -29,7 +38,10 @@ public class ExperimentController : MonoBehaviour {
 
 		increased = false;
 		showShapes = 0;
-		timeLimit = 1.0f;
+		if (experiment == 1)
+			timeLimit = 1.0f;
+		else
+			timeLimit = 3.0f;
 
 		// Write the string to a file.
 		file = new System.IO.StreamWriter(Application.dataPath + "/ExperimentData/test.txt");
@@ -40,6 +52,14 @@ public class ExperimentController : MonoBehaviour {
             canvasObj.SetActive(false);
 
         //canvas = tickerTextObj.GetComponent<Text>();
+		stockTickerScript = GameObject.Find ("Stock Ticker").GetComponent <StockTickerFunctions>();
+		mathBoxScript = GameObject.Find ("MathBox").GetComponent <MathBoxFunctions>();
+		emailBoxScript = GameObject.Find ("Email Box").GetComponent <EmailBoxFunctions>();
+
+		stockPanelImage =  GameObject.Find("Title Panel Stock").GetComponent<Image>();
+		mathPanelImage =  GameObject.Find("Title Panel Math").GetComponent<Image>();
+		emailPanelImage =  GameObject.Find("Title Panel Email").GetComponent<Image>();
+
 	}
 
 	void OnApplicationQuit()
@@ -50,41 +70,79 @@ public class ExperimentController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (experiment == 1)
-        {
-            if (timeLimit > 0) 
-            {
-                timeLimit -= Time.deltaTime;
-            } 
-            else 
-            {
-                increased=false;
-                createShapes (showShapes);
-                //showShapes++;
-				showShapes = Random.Range(0, 3);
+
+
+        if (experiment == 1) {
+			if (timeLimit > 0) {
+				timeLimit -= Time.deltaTime;
+			} else {
+				increased = false;
+				createShapes (showShapes);
+				//showShapes++;
+				showShapes = Random.Range (0, 3);
 //                if(showShapes%3==0)
 //                    showShapes = 0;
                 
-                Debug.Log(showShapes);
-                timeLimit = 1.0f;
+				Debug.Log (showShapes);
+				timeLimit = 1.0f;
                 
-            }
+			}
             
-            if(timeLimit < 0.5 && !increased) 
-            {
-                //decide if size will be increased/decreased
-                int increaseSize = Random.Range(0, 2);
-                if (increaseSize == 1)
-                {
-                    Debug.Log ("increase!");
-                    increaseShapeSize();
-                }
+			if (timeLimit < 0.5 && !increased) {
+				//decide if size will be increased/decreased
+				int increaseSize = Random.Range (0, 2);
+				if (increaseSize == 1) {
+					Debug.Log ("increase!");
+					increaseShapeSize ();
+				}
                 
-                increased = true;
-                //file.WriteLine("Increased\r");
-            }
+				increased = true;
+				//file.WriteLine("Increased\r");
+			}
 
-        }
+		} else if (experiment == 2) 
+		{
+			if (timeLimit > 0) {
+				timeLimit -= Time.deltaTime;
+			} else {
+				int chooseWidget = Random.Range (0, 3);
+				
+				Debug.Log (showShapes);
+				timeLimit = 3.0f;
+				if(chooseWidget==0)
+				{
+					stockTickerScript.doTurn ();
+	
+		
+					stockPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
+					mathPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
+					emailPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
+				}
+				else if(chooseWidget==1)
+				{
+					mathBoxScript.doTurn();
+
+					stockPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
+					mathPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
+					emailPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
+				}
+				else if(chooseWidget==2)
+				{
+					emailBoxScript.doTurn();
+
+					stockPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
+					mathPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
+					emailPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
+				}
+				
+			}
+
+
+
+
+
+
+		}
 
 	}
 

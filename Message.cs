@@ -10,7 +10,7 @@
 using System;
 using UnityEngine;
 
-public class Message : MonoBehaviour
+public class Message 
 {
     string message;
     bool targetMessage;
