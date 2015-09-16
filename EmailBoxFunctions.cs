@@ -14,9 +14,19 @@ public class EmailBoxFunctions : MonoBehaviour {
 
     List<Message> messages;
 	List<GameObject> messageGameObjs;
+	List<int> displayedMessages;
 
 	GameObject titleTextObj;
 	Text titleText;
+
+	GameObject flagButtonObj;
+	Button flagButton;
+
+	GameObject flagButtonTextObj;
+	Text flagButtonText;
+
+	bool provideAnswer = false;
+	bool currentTurn = false;
 
     // Use this for initialization
     void Start () 
@@ -28,14 +38,50 @@ public class EmailBoxFunctions : MonoBehaviour {
         timeLimit = 3;
         messageGameObjs = new List<GameObject> ();
 
+		displayedMessages = new List<int>();
+
+		flagButtonObj = GameObject.Find ("Flag Button");
+		flagButton = flagButtonObj.GetComponent<Button>();
+
+		flagButtonTextObj = GameObject.Find ("FlagText");
+		flagButtonText = flagButtonTextObj.GetComponent<Text>();
+
+		flagButton.onClick.AddListener(delegate { 
+			if(!provideAnswer && currentTurn)
+			{
+				flagButtonText.text = "*FLAGGED*";
+			} 
+		});
+
+
+
     }
+
+	public void waitForTurn()
+	{
+		currentTurn = false;
+		flagButtonText.text = "";
+	}
 
 	public void doTurn()
 	{
+		currentTurn = true;
+
 		ShowEmailMessage();
+
+		if (provideAnswer) 
+		{
+			flagButtonText.text = "Flag";
+		}
+		else
+		{
+			flagButtonText.text = "";
+		}
+
+		provideAnswer = !provideAnswer;
 	}
 
-	
+
 	public void ShowEmailMessage ()
 	{
         
@@ -48,12 +94,37 @@ public class EmailBoxFunctions : MonoBehaviour {
 			Destroy(messageGameObjs[0]);
 			messageGameObjs.RemoveAt(0);
 			}
+			if(displayedMessages.Count>0)
+			{
+				displayedMessages.RemoveAt(0);
+			}
+
 		}
 
 		GameObject clone;
+
 		for (int i=0; i<11; i++) 
 		{
-			string message = messages [Random.Range(0, 25)].getMessage();
+			int messageIndx = Random.Range(0, 25);
+			bool inList = true;
+			while(inList)
+			{
+				inList = false;
+				for(int j=0; j<displayedMessages.Count; j++)
+				{
+					if(messageIndx == displayedMessages[j])
+					{
+						inList = true;
+						messageIndx = Random.Range(0, 25);
+					}
+						
+				}
+			}
+
+				
+			string message = messages [messageIndx].getMessage();
+			displayedMessages.Add(messageIndx);
+
 			clone = Instantiate (newMessagePrefab);
 			messageGameObjs.Add(clone);
 			clone.transform.SetParent (messageParentPanel);
@@ -78,7 +149,7 @@ public class EmailBoxFunctions : MonoBehaviour {
         messages.Add(new Message("Subject: Fw: Internship opportunities with Microsoft",false));
         messages.Add(new Message("Subject: Fw: Research Scientist Positions at NVIDIA",false));
         messages.Add(new Message("Subject: Re: meeting tomorrow?",false));
-        messages.Add(new Message("Subject: Re: can we meet next week?",false));
+        messages.Add(new Message("Subject: Re: meeting next week?",false));
         messages.Add(new Message("Subject: 4 Days only! Save Big on Dolce & Gabbana",false));
         messages.Add(new Message("Subject: Comedy at Chumash, SBYPC Summer Soiree, ...",false));
         messages.Add(new Message("Subject: Travel accessories you can't leave without",false));
@@ -95,7 +166,7 @@ public class EmailBoxFunctions : MonoBehaviour {
         messages.Add(new Message("Subject: Update from last Friday's meeting",false));
         messages.Add(new Message("Subject: Dietitian's Favorite Nutrition App",false));
         messages.Add(new Message("Subject: Reimbursement",false));
-        messages.Add(new Message("Subject: Meet us in San Francisco",false));
+        messages.Add(new Message("Subject: Vacation in San Francisco",false));
 
     }
 }

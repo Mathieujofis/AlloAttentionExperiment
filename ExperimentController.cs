@@ -110,6 +110,7 @@ public class ExperimentController : MonoBehaviour {
 				{
 					stockTickerScript.doTurn ();
 					mathBoxScript.waitForTurn();
+					emailBoxScript.waitForTurn();
 	
 		
 					stockPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
@@ -120,6 +121,7 @@ public class ExperimentController : MonoBehaviour {
 				{
 					mathBoxScript.doTurn();
 					stockTickerScript.waitForTurn ();
+					emailBoxScript.waitForTurn();
 
 					stockPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
 					mathPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
