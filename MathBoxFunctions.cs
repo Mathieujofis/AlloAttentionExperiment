@@ -29,6 +29,8 @@ public class MathBoxFunctions : MonoBehaviour {
     InputField textInput;
 
 	bool provideAnswer = false;
+	bool currentTurn = false;
+	int sum = -1;
 
     MathInputHelper mathInputFunctions;
 	// Use this for initialization
@@ -43,15 +45,24 @@ public class MathBoxFunctions : MonoBehaviour {
 
         answerButton1Obj = GameObject.Find ("answerButtonOne");
         answerButton1 = answerButton1Obj.GetComponent<Button>();
-        answerButton1.onClick.AddListener(delegate { submitText.text="Answer recorded1."; });
+        answerButton1.onClick.AddListener(delegate { 
+			if(!provideAnswer && currentTurn)
+				submitText.text= checkAnswer(1).ToString(); 
+		});
 
 		answerButton2Obj = GameObject.Find ("answerButtonTwo");
 		answerButton2 = answerButton2Obj.GetComponent<Button>();
-		answerButton2.onClick.AddListener(delegate { submitText.text="Answer recorded2."; });
+		answerButton2.onClick.AddListener(delegate {
+			if(!provideAnswer && currentTurn)
+				submitText.text= checkAnswer(2).ToString(); 
+		});
 
 		answerButton3Obj = GameObject.Find ("answerButtonThree");
 		answerButton3 = answerButton3Obj.GetComponent<Button>();
-		answerButton3.onClick.AddListener(delegate { submitText.text="Answer recorded3."; });
+		answerButton3.onClick.AddListener(delegate { 
+			if(!provideAnswer && currentTurn)
+				submitText.text = checkAnswer(3).ToString(); 
+		});
 
 		answerButton1TextObj = GameObject.Find ("answerButton1Text");
 		answerButton1Text = answerButton1TextObj.GetComponent<Text>();;
@@ -66,9 +77,39 @@ public class MathBoxFunctions : MonoBehaviour {
         //mathInputFunctions = (MathInputHelper)textInput.GetComponent(typeof(MathInputHelper));
 	}
 
-	public void doTurn()
+	public bool checkAnswer(int id)
 	{
 
+		if (id == 1) 
+		{
+			return int.Parse (answerButton1Text.text) == sum;
+		} 
+		else if (id == 2) 
+		{
+			return int.Parse (answerButton2Text.text) == sum;
+		} 
+		else if (id == 3) 
+		{
+			return int.Parse (answerButton3Text.text) == sum;
+		}
+		else 
+		{
+			return false;
+		}
+	}
+
+	public void waitForTurn()
+	{
+		currentTurn = false;
+		answerButton1Text.text = "";
+		answerButton2Text.text = "";
+		answerButton3Text.text = "";
+		submitText.text="";
+	}
+
+	public void doTurn()
+	{
+		currentTurn = true;
 		int prevNumber = number;
 		
 		number = Random.Range(0, 20);
@@ -80,7 +121,7 @@ public class MathBoxFunctions : MonoBehaviour {
 		
 		if (provideAnswer)
 		{
-			int sum = prevNumber + number;
+			sum = prevNumber + number;
 			
 			int randAns = Random.Range(sum-5, sum+5);
 			while(randAns == sum)
@@ -94,17 +135,17 @@ public class MathBoxFunctions : MonoBehaviour {
 			while(randAns3 == sum || randAns3 == randAns || randAns3 == randAns2)
 				randAns3 = Random.Range(sum-5, sum+5);
 			
-			answerButton1Text.text = randAns.ToString("F2");
-			answerButton2Text.text = randAns2.ToString("F2");
-			answerButton3Text.text = randAns3.ToString("F2");
+			answerButton1Text.text = randAns.ToString();
+			answerButton2Text.text = randAns2.ToString();
+			answerButton3Text.text = randAns3.ToString();
 			
 			int pickButton = Random.Range(0,3);
 			if(pickButton == 0)
-				answerButton1Text.text = sum.ToString("F2") + "!";
+				answerButton1Text.text = sum.ToString();
 			else if(pickButton == 1)
-				answerButton2Text.text = sum.ToString("F2") + "!";
+				answerButton2Text.text = sum.ToString();
 			else if(pickButton == 2)
-				answerButton3Text.text = sum.ToString("F2") + "!";
+				answerButton3Text.text = sum.ToString();
 		}
 		else
 		{

@@ -69,9 +69,7 @@ public class ExperimentController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
-
-
+	
         if (experiment == 1) {
 			if (timeLimit > 0) {
 				timeLimit -= Time.deltaTime;
@@ -106,12 +104,12 @@ public class ExperimentController : MonoBehaviour {
 				timeLimit -= Time.deltaTime;
 			} else {
 				int chooseWidget = Random.Range (0, 3);
-				
-				Debug.Log (showShapes);
+
 				timeLimit = 3.0f;
 				if(chooseWidget==0)
 				{
 					stockTickerScript.doTurn ();
+					mathBoxScript.waitForTurn();
 	
 		
 					stockPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
@@ -121,6 +119,7 @@ public class ExperimentController : MonoBehaviour {
 				else if(chooseWidget==1)
 				{
 					mathBoxScript.doTurn();
+					stockTickerScript.waitForTurn ();
 
 					stockPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
 					mathPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
@@ -129,6 +128,8 @@ public class ExperimentController : MonoBehaviour {
 				else if(chooseWidget==2)
 				{
 					emailBoxScript.doTurn();
+					mathBoxScript.waitForTurn();
+					stockTickerScript.waitForTurn ();
 
 					stockPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
 					mathPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
