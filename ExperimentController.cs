@@ -17,15 +17,20 @@ public class ExperimentController : MonoBehaviour {
 	float circleScale = .5f;
 	float starScale = .5f;
 	bool increased;
-	int showShapes;
 	float timeLimit;
 
-	StockTickerFunctions stockTickerScript;
+    int showShapes = 0;
+    int prevShowShapes = 0;
+    
+    StockTickerFunctions stockTickerScript;
 	Image stockPanelImage;
 	MathBoxFunctions mathBoxScript;
 	Image mathPanelImage;
 	EmailBoxFunctions emailBoxScript;
 	Image emailPanelImage;
+
+    int chooseWidget = 0;
+    int prevWidget = 0;
 
 
 	System.IO.StreamWriter file;
@@ -37,7 +42,6 @@ public class ExperimentController : MonoBehaviour {
 		shapes= new List<GameObject>();
 
 		increased = false;
-		showShapes = 0;
 		if (experiment == 1)
 			timeLimit = 1.0f;
 		else
@@ -74,10 +78,15 @@ public class ExperimentController : MonoBehaviour {
 			if (timeLimit > 0) {
 				timeLimit -= Time.deltaTime;
 			} else {
+
 				increased = false;
 				createShapes (showShapes);
 				//showShapes++;
+                prevShowShapes = showShapes;
 				showShapes = Random.Range (0, 3);
+
+                while(showShapes == prevShowShapes)
+                    showShapes = Random.Range (0, 3);
 //                if(showShapes%3==0)
 //                    showShapes = 0;
                 
@@ -103,12 +112,16 @@ public class ExperimentController : MonoBehaviour {
 			if (timeLimit > 0) {
 				timeLimit -= Time.deltaTime;
 			} else {
-				int chooseWidget = Random.Range (0, 3);
+                prevWidget = chooseWidget;
+				chooseWidget = Random.Range (0, 3);
+
+                while(chooseWidget == prevWidget)
+                    chooseWidget = Random.Range (0, 3);
 
 				timeLimit = 3.0f;
 				if(chooseWidget==0)
 				{
-					stockTickerScript.doTurn ();
+					stockTickerScript.doTurn();
 					mathBoxScript.waitForTurn();
 					emailBoxScript.waitForTurn();
 	
@@ -120,7 +133,7 @@ public class ExperimentController : MonoBehaviour {
 				else if(chooseWidget==1)
 				{
 					mathBoxScript.doTurn();
-					stockTickerScript.waitForTurn ();
+					stockTickerScript.waitForTurn();
 					emailBoxScript.waitForTurn();
 
 					stockPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
@@ -131,7 +144,7 @@ public class ExperimentController : MonoBehaviour {
 				{
 					emailBoxScript.doTurn();
 					mathBoxScript.waitForTurn();
-					stockTickerScript.waitForTurn ();
+					stockTickerScript.waitForTurn();
 
 					stockPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
 					mathPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);

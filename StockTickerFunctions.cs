@@ -40,9 +40,15 @@ public class StockTickerFunctions : MonoBehaviour {
 			if(!provideAnswer && currentTurn)
 			{
 				if(prevPercentChange > 0 && percentChange > 0)
+                {
 					confirmText.text="Bought shares. Correct!";
+                    System.IO.File.AppendAllText("stocktickerbox.txt", "true" + System.Environment.NewLine);
+                }
 				else
+                {
 					confirmText.text="Bought shares. Wrong.";
+                    System.IO.File.AppendAllText("stocktickerbox.txt", "false" + System.Environment.NewLine);
+                }
 			}
 				
 		});
@@ -53,9 +59,15 @@ public class StockTickerFunctions : MonoBehaviour {
 			if(!provideAnswer && currentTurn)
 			{
 				if(prevPercentChange <= 0 && percentChange <=0)
+                {
 					confirmText.text="Sold shares. Correct!.";
+                    System.IO.File.AppendAllText("stocktickerbox.txt", "true" + System.Environment.NewLine);
+                }
 				else
+                {
 					confirmText.text="Sold shares. Wrong.";
+                    System.IO.File.AppendAllText("stocktickerbox.txt", "false" + System.Environment.NewLine);
+                }
 			} 
 		});
 

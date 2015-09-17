@@ -47,21 +47,30 @@ public class MathBoxFunctions : MonoBehaviour {
         answerButton1 = answerButton1Obj.GetComponent<Button>();
         answerButton1.onClick.AddListener(delegate { 
 			if(!provideAnswer && currentTurn)
-				submitText.text= checkAnswer(1).ToString(); 
+            {
+				submitText.text= checkAnswer(1).ToString();
+                System.IO.File.AppendAllText("mathbox.txt", checkAnswer(1).ToString() + System.Environment.NewLine);
+            }
 		});
 
 		answerButton2Obj = GameObject.Find ("answerButtonTwo");
 		answerButton2 = answerButton2Obj.GetComponent<Button>();
 		answerButton2.onClick.AddListener(delegate {
 			if(!provideAnswer && currentTurn)
+            {
 				submitText.text= checkAnswer(2).ToString(); 
+                System.IO.File.AppendAllText("mathbox.txt", checkAnswer(2).ToString() + System.Environment.NewLine);
+            }
 		});
 
 		answerButton3Obj = GameObject.Find ("answerButtonThree");
 		answerButton3 = answerButton3Obj.GetComponent<Button>();
 		answerButton3.onClick.AddListener(delegate { 
 			if(!provideAnswer && currentTurn)
-				submitText.text = checkAnswer(3).ToString(); 
+            {
+				submitText.text = checkAnswer(3).ToString();
+                System.IO.File.AppendAllText("mathbox.txt", checkAnswer(3).ToString() + System.Environment.NewLine);
+            }
 		});
 
 		answerButton1TextObj = GameObject.Find ("answerButton1Text");
