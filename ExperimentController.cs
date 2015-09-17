@@ -10,7 +10,7 @@ public class ExperimentController : MonoBehaviour {
 	List<GameObject> shapes;
 	
 	public int numShapes = 10;
-	public int numShapesThatScale = 2;
+	public int numShapesThatScale = 1;
     public int experiment = 1;
 	float triangleScale = .5f;
 	float squareScale = .2f;
@@ -31,6 +31,15 @@ public class ExperimentController : MonoBehaviour {
 
     int chooseWidget = 0;
     int prevWidget = 0;
+
+    int exp1ClickCounter = 0;
+    int shapeIncreasedTwiceCounter = 0;
+    bool triangleIncreased = false;
+    bool prevTriangleIncreased = false;
+    bool squareIncreased = false;
+    bool prevSquareIncreased = false;
+    bool circleIncreased = false;
+    bool prevCircleIncreased = false;
 
 
 	System.IO.StreamWriter file;
@@ -75,22 +84,30 @@ public class ExperimentController : MonoBehaviour {
 	void Update () {
 	
         if (experiment == 1) {
+
+            if(Input.GetButtonDown("Fire1"))
+            {
+                exp1ClickCounter++;
+                System.IO.File.AppendAllText("exp1.txt", exp1ClickCounter.ToString() + System.Environment.NewLine);
+            }
+
 			if (timeLimit > 0) {
 				timeLimit -= Time.deltaTime;
 			} else {
 
 				increased = false;
-				createShapes (showShapes);
-				//showShapes++;
+
                 prevShowShapes = showShapes;
 				showShapes = Random.Range (0, 3);
 
                 while(showShapes == prevShowShapes)
                     showShapes = Random.Range (0, 3);
-//                if(showShapes%3==0)
-//                    showShapes = 0;
-                
-				Debug.Log (showShapes);
+
+				createShapes (showShapes);
+
+
+				//Debug.Log (showShapes);
+
 				timeLimit = 1.0f;
                 
 			}
@@ -99,11 +116,33 @@ public class ExperimentController : MonoBehaviour {
 				//decide if size will be increased/decreased
 				int increaseSize = Random.Range (0, 2);
 				if (increaseSize == 1) {
-					Debug.Log ("increase!");
+					//Debug.Log ("increase!");
 					increaseShapeSize ();
+                    
 				}
-                
+                else
+				{
+					//showshapes == 1 squares
+					if(showShapes == 0)
+					{
+						triangleIncreased = false;
+						prevTriangleIncreased = false;
+					}
+					else if(showShapes == 1)
+					{
+						squareIncreased = false;
+						prevSquareIncreased = false;
+					}
+					else if(showShapes == 2)
+					{
+						circleIncreased = false;
+						prevCircleIncreased = false;
+					}
+                }
+
 				increased = true;
+                
+				
 				//file.WriteLine("Increased\r");
 			}
 
@@ -167,14 +206,53 @@ public class ExperimentController : MonoBehaviour {
 
 		for (int i=0; i<numShapesThatScale; i++) 
 		{
-			if(showShapes==1) // off by 1 because showShapes is immediately adjusted on drawing triangles
+			if(showShapes==0)
+            {// off by 1 because showShapes is immediately adjusted on drawing triangles
+                prevTriangleIncreased = triangleIncreased;
 				shapes[i].transform.localScale = new Vector3(shapes[i].transform.localScale.x + triangleScale, shapes[i].transform.localScale.y + triangleScale, 0);
-			else if (showShapes == 2)
+                triangleIncreased = true;
+
+                if(prevTriangleIncreased && triangleIncreased)
+                {
+					//Debug.Log("Triangle Click!");
+                    System.IO.File.AppendAllText("exp1tri.txt", "true" + System.Environment.NewLine);
+                    triangleIncreased = false;
+                    prevTriangleIncreased = false;
+                }
+            }
+			else if (showShapes == 1)
+            {
+				prevSquareIncreased = squareIncreased;
 				shapes[i].transform.localScale = new Vector3(shapes[i].transform.localScale.x + squareScale, shapes[i].transform.localScale.y + squareScale, 0);
-			else if (showShapes == 3)
+				squareIncreased = true;
+
+				if(prevSquareIncreased && squareIncreased)
+				{
+					//Debug.Log("Square Click!");
+					System.IO.File.AppendAllText("exp1square.txt", "true" + System.Environment.NewLine);
+					squareIncreased = false;
+					prevSquareIncreased = false;
+				}
+            }
+			else if (showShapes == 2)
+            {
+				prevCircleIncreased = circleIncreased;
 				shapes[i].transform.localScale = new Vector3(shapes[i].transform.localScale.x + circleScale, shapes[i].transform.localScale.y + circleScale, 0);
-			else if (showShapes == 0)
+				circleIncreased = true;
+
+				if(prevCircleIncreased && circleIncreased)
+				{
+					Debug.Log("Circle Click!");
+					System.IO.File.AppendAllText("exp1circle.txt", "true" + System.Environment.NewLine);
+					circleIncreased = false;
+					prevCircleIncreased = false;
+				}
+
+            }
+			else if (showShapes == 3)
+            {
 				shapes[i].transform.localScale = new Vector3(shapes[i].transform.localScale.x + starScale, shapes[i].transform.localScale.y + starScale, 0);
+            }
 		}
 
 	}
@@ -189,7 +267,7 @@ public class ExperimentController : MonoBehaviour {
 			}
 			shapes.Clear();
 		}
-		Debug.Log ("Size of shapes: " + shapes.Count);
+		//Debug.Log ("Size of shapes: " + shapes.Count);
 
 		//get random number of shapes here
 		//Vector3 position = Random.Range (5, 10);
