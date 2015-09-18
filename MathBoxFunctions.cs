@@ -115,13 +115,13 @@ public class MathBoxFunctions : MonoBehaviour {
 		answerButton3Text.text = "";
 		submitText.text="";
 	}
-
+	int error = 3;
 	public void doTurn()
 	{
 		currentTurn = true;
 		int prevNumber = number;
 		
-		number = Random.Range(0, 20);
+		number = Random.Range(0, 10);
 		
 		mathText.text = number.ToString();
 		
@@ -132,17 +132,17 @@ public class MathBoxFunctions : MonoBehaviour {
 		{
 			sum = prevNumber + number;
 			
-			int randAns = Random.Range(sum-5, sum+5);
+			int randAns = Random.Range(sum-error, sum+error);
 			while(randAns == sum)
-				randAns = Random.Range(sum-5, sum+5);
+				randAns = Random.Range(sum-error, sum+error);
 			
-			int randAns2 = Random.Range(sum-5, sum+5);
+			int randAns2 = Random.Range(sum-error, sum+error);
 			while(randAns2 == sum || randAns2 == randAns)
-				randAns2 = Random.Range(sum-5, sum+5);
+				randAns2 = Random.Range(sum-error, sum+error);
 			
-			int randAns3 = Random.Range(sum-5, sum+5);
+			int randAns3 = Random.Range(sum-error, sum+error);
 			while(randAns3 == sum || randAns3 == randAns || randAns3 == randAns2)
-				randAns3 = Random.Range(sum-5, sum+5);
+				randAns3 = Random.Range(sum-error, sum+error);
 			
 			answerButton1Text.text = randAns.ToString();
 			answerButton2Text.text = randAns2.ToString();

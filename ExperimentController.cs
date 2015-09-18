@@ -12,6 +12,8 @@ public class ExperimentController : MonoBehaviour {
 	public int numShapes = 10;
 	public int numShapesThatScale = 1;
     public int experiment = 1;
+	public float exp1TimeLimit = 1.0F;
+	public float exp2TimeLimit = 3.0F;
 	float triangleScale = .5f;
 	float squareScale = .2f;
 	float circleScale = .5f;
@@ -52,9 +54,9 @@ public class ExperimentController : MonoBehaviour {
 
 		increased = false;
 		if (experiment == 1)
-			timeLimit = 1.0f;
+			timeLimit = exp1TimeLimit;
 		else
-			timeLimit = 3.0f;
+			timeLimit = exp2TimeLimit;
 
 		// Write the string to a file.
 		file = new System.IO.StreamWriter(Application.dataPath + "/ExperimentData/test.txt");
@@ -108,11 +110,11 @@ public class ExperimentController : MonoBehaviour {
 
 				//Debug.Log (showShapes);
 
-				timeLimit = 1.0f;
+				timeLimit = exp1TimeLimit;
                 
 			}
             
-			if (timeLimit < 0.5 && !increased) {
+			if (timeLimit < (exp1TimeLimit/2.0F) && !increased) {
 				//decide if size will be increased/decreased
 				int increaseSize = Random.Range (0, 2);
 				if (increaseSize == 1) {
@@ -157,7 +159,7 @@ public class ExperimentController : MonoBehaviour {
                 while(chooseWidget == prevWidget)
                     chooseWidget = Random.Range (0, 3);
 
-				timeLimit = 3.0f;
+				timeLimit = exp2TimeLimit;
 				if(chooseWidget==0)
 				{
 					stockTickerScript.doTurn();
