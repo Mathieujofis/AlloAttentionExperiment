@@ -23,10 +23,16 @@ public class StockTickerFunctions : MonoBehaviour {
 	float prevPercentChange = -1.0F;
 	float percentChange = -1.0F;
 
+	ExperimentController controllerScript;
+
     float tick;
 	// Use this for initialization
 	void Start () {
 		timeLimit = 4;
+
+		controllerScript = GameObject.Find ("Main Camera").GetComponent <ExperimentController>();
+
+
         tickerTextObj = GameObject.Find ("TickerText");
         tickerText = tickerTextObj.GetComponent<Text>();
 
@@ -42,12 +48,14 @@ public class StockTickerFunctions : MonoBehaviour {
 				if(prevPercentChange > 0 && percentChange > 0)
                 {
 					confirmText.text="Bought shares. Correct!";
-                    System.IO.File.AppendAllText("stocktickerbox.txt", "true" + System.Environment.NewLine);
+                    //System.IO.File.AppendAllText("stocktickerbox.txt", "true" + System.Environment.NewLine);
+					controllerScript.recordExp2Answer(true);
                 }
 				else
                 {
 					confirmText.text="Bought shares. Wrong.";
-                    System.IO.File.AppendAllText("stocktickerbox.txt", "false" + System.Environment.NewLine);
+                    //System.IO.File.AppendAllText("stocktickerbox.txt", "false" + System.Environment.NewLine);
+					controllerScript.recordExp2Answer(false);
                 }
 			}
 				
@@ -61,12 +69,14 @@ public class StockTickerFunctions : MonoBehaviour {
 				if(prevPercentChange <= 0 && percentChange <=0)
                 {
 					confirmText.text="Sold shares. Correct!.";
-                    System.IO.File.AppendAllText("stocktickerbox.txt", "true" + System.Environment.NewLine);
+                    //System.IO.File.AppendAllText("stocktickerbox.txt", "true" + System.Environment.NewLine);
+					controllerScript.recordExp2Answer(true);
                 }
 				else
                 {
 					confirmText.text="Sold shares. Wrong.";
-                    System.IO.File.AppendAllText("stocktickerbox.txt", "false" + System.Environment.NewLine);
+                    //System.IO.File.AppendAllText("stocktickerbox.txt", "false" + System.Environment.NewLine);
+					controllerScript.recordExp2Answer(false);
                 }
 			} 
 		});
@@ -83,9 +93,9 @@ public class StockTickerFunctions : MonoBehaviour {
 	public void waitForTurn()
 	{
 		currentTurn = false;
-		buyButtonText.text = "";
-		sellButtonText.text = "";
-		confirmText.text="";
+		//buyButtonText.text = "";
+		//sellButtonText.text = "";
+		//confirmText.text="";
 	}
 
 	public void doTurn()

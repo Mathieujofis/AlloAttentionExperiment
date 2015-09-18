@@ -31,9 +31,13 @@ public class EmailBoxFunctions : MonoBehaviour {
     bool prevAnswer = false;
     bool answer = false;
 
+	ExperimentController controllerScript;
+
     // Use this for initialization
     void Start () 
     {
+
+		controllerScript = GameObject.Find ("Main Camera").GetComponent <ExperimentController>();
 
 		titleTextObj = GameObject.Find ("Title Bar Email");
 		titleText = titleTextObj.GetComponent<Text>();
@@ -56,12 +60,14 @@ public class EmailBoxFunctions : MonoBehaviour {
                 if(prevAnswer && answer)
                 {
 				    flagButtonText.text = "*FLAGGED* CORRECT";
-                    System.IO.File.AppendAllText("emailbox.txt", "true" + System.Environment.NewLine);
+                    //System.IO.File.AppendAllText("emailbox.txt", "true" + System.Environment.NewLine);
+					controllerScript.recordExp2Answer(true);
                 }
                 else
                 {
                     flagButtonText.text = "*FLAGGED* WRONG";
-                    System.IO.File.AppendAllText("emailbox.txt", "false" + System.Environment.NewLine);
+                    //System.IO.File.AppendAllText("emailbox.txt", "false" + System.Environment.NewLine);
+					controllerScript.recordExp2Answer(false);
                 }
 			}   
 		});
@@ -71,7 +77,7 @@ public class EmailBoxFunctions : MonoBehaviour {
 	public void waitForTurn()
 	{
 		currentTurn = false;
-		flagButtonText.text = "";
+		//flagButtonText.text = "";
 	}
 
 	public void doTurn()

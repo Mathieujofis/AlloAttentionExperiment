@@ -14,6 +14,7 @@ public class ExperimentController : MonoBehaviour {
     public int experiment = 1;
 	public float exp1TimeLimit = 1.0F;
 	public float exp2TimeLimit = 3.0F;
+	public int userID = 1;
 	float triangleScale = .5f;
 	float squareScale = .2f;
 	float circleScale = .5f;
@@ -35,6 +36,7 @@ public class ExperimentController : MonoBehaviour {
     int prevWidget = 0;
 
     int exp1ClickCounter = 0;
+	int exp1Counter = 0;
     int shapeIncreasedTwiceCounter = 0;
     bool triangleIncreased = false;
     bool prevTriangleIncreased = false;
@@ -90,7 +92,7 @@ public class ExperimentController : MonoBehaviour {
             if(Input.GetButtonDown("Fire1"))
             {
                 exp1ClickCounter++;
-                System.IO.File.AppendAllText("exp1.txt", exp1ClickCounter.ToString() + System.Environment.NewLine);
+				System.IO.File.AppendAllText(userID + "_exp1.txt", exp1ClickCounter.ToString() + System.Environment.NewLine);
             }
 
 			if (timeLimit > 0) {
@@ -217,7 +219,8 @@ public class ExperimentController : MonoBehaviour {
                 if(prevTriangleIncreased && triangleIncreased)
                 {
 					//Debug.Log("Triangle Click!");
-                    System.IO.File.AppendAllText("exp1tri.txt", "true" + System.Environment.NewLine);
+					exp1Counter++;
+                    System.IO.File.AppendAllText(userID + "_exp1.txt", "Actual (triangle): " + exp1Counter.ToString() + System.Environment.NewLine);
                     triangleIncreased = false;
                     prevTriangleIncreased = false;
                 }
@@ -231,7 +234,8 @@ public class ExperimentController : MonoBehaviour {
 				if(prevSquareIncreased && squareIncreased)
 				{
 					//Debug.Log("Square Click!");
-					System.IO.File.AppendAllText("exp1square.txt", "true" + System.Environment.NewLine);
+					exp1Counter++;
+					System.IO.File.AppendAllText(userID + "_exp1.txt", "Actual (square): " + exp1Counter.ToString() + System.Environment.NewLine);
 					squareIncreased = false;
 					prevSquareIncreased = false;
 				}
@@ -244,8 +248,9 @@ public class ExperimentController : MonoBehaviour {
 
 				if(prevCircleIncreased && circleIncreased)
 				{
-					Debug.Log("Circle Click!");
-					System.IO.File.AppendAllText("exp1circle.txt", "true" + System.Environment.NewLine);
+					//Debug.Log("Circle Click!");
+					exp1Counter++;
+					System.IO.File.AppendAllText(userID + "_exp1.txt", "Actual (circle): " + exp1Counter.ToString() + System.Environment.NewLine);
 					circleIncreased = false;
 					prevCircleIncreased = false;
 				}
@@ -322,5 +327,18 @@ public class ExperimentController : MonoBehaviour {
 				shapes.Add(Instantiate (Resources.Load ("yellowstarpref"), position, Quaternion.identity) as GameObject);
 			}
 		}
+	}
+
+	int correctCounter = 0;
+	int incorrectCounter = 0;
+	public void recordExp2Answer(bool correct)
+	{
+		if (correct)
+			correctCounter++;
+		else
+			incorrectCounter++;
+
+
+		System.IO.File.AppendAllText(userID + "_exp2.txt", "Correct: " + correctCounter.ToString() + ", Incorrect: " + incorrectCounter.ToString() +System.Environment.NewLine);
 	}
 }

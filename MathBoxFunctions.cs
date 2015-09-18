@@ -24,6 +24,7 @@ public class MathBoxFunctions : MonoBehaviour {
 	GameObject answerButton3TextObj;
 	Text answerButton3Text;
 
+	ExperimentController controllerScript;
 
     GameObject textInputObj;
     InputField textInput;
@@ -37,6 +38,8 @@ public class MathBoxFunctions : MonoBehaviour {
 	void Start () {
         timeLimit = 2;
 
+		controllerScript = GameObject.Find ("Main Camera").GetComponent <ExperimentController>();
+
         mathTextObj = GameObject.Find ("MathText");
         mathText = mathTextObj.GetComponent<Text>();
 
@@ -49,7 +52,8 @@ public class MathBoxFunctions : MonoBehaviour {
 			if(!provideAnswer && currentTurn)
             {
 				submitText.text= checkAnswer(1).ToString();
-                System.IO.File.AppendAllText("mathbox.txt", checkAnswer(1).ToString() + System.Environment.NewLine);
+                //System.IO.File.AppendAllText("mathbox.txt", checkAnswer(1).ToString() + System.Environment.NewLine);
+				controllerScript.recordExp2Answer(checkAnswer (1));
             }
 		});
 
@@ -59,7 +63,8 @@ public class MathBoxFunctions : MonoBehaviour {
 			if(!provideAnswer && currentTurn)
             {
 				submitText.text= checkAnswer(2).ToString(); 
-                System.IO.File.AppendAllText("mathbox.txt", checkAnswer(2).ToString() + System.Environment.NewLine);
+                //System.IO.File.AppendAllText("mathbox.txt", checkAnswer(2).ToString() + System.Environment.NewLine);
+				controllerScript.recordExp2Answer(checkAnswer (2));
             }
 		});
 
@@ -69,7 +74,8 @@ public class MathBoxFunctions : MonoBehaviour {
 			if(!provideAnswer && currentTurn)
             {
 				submitText.text = checkAnswer(3).ToString();
-                System.IO.File.AppendAllText("mathbox.txt", checkAnswer(3).ToString() + System.Environment.NewLine);
+                //System.IO.File.AppendAllText("mathbox.txt", checkAnswer(3).ToString() + System.Environment.NewLine);
+				controllerScript.recordExp2Answer(checkAnswer (3));
             }
 		});
 
@@ -110,10 +116,10 @@ public class MathBoxFunctions : MonoBehaviour {
 	public void waitForTurn()
 	{
 		currentTurn = false;
-		answerButton1Text.text = "";
-		answerButton2Text.text = "";
-		answerButton3Text.text = "";
-		submitText.text="";
+		//answerButton1Text.text = "";
+		//answerButton2Text.text = "";
+		//answerButton3Text.text = "";
+		//submitText.text="";
 	}
 	int error = 3;
 	public void doTurn()
