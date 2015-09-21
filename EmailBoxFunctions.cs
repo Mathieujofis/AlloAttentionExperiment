@@ -59,13 +59,13 @@ public class EmailBoxFunctions : MonoBehaviour {
 			{
                 if(prevAnswer && answer)
                 {
-				    flagButtonText.text = "*FLAGGED* CORRECT";
+				    flagButtonText.text = "*FLAGGED*";
                     //System.IO.File.AppendAllText("emailbox.txt", "true" + System.Environment.NewLine);
 					controllerScript.recordExp2Answer(true);
                 }
                 else
                 {
-                    flagButtonText.text = "*FLAGGED* WRONG";
+                    flagButtonText.text = "*FLAGGED*";
                     //System.IO.File.AppendAllText("emailbox.txt", "false" + System.Environment.NewLine);
 					controllerScript.recordExp2Answer(false);
                 }
@@ -77,7 +77,22 @@ public class EmailBoxFunctions : MonoBehaviour {
 	public void waitForTurn()
 	{
 		currentTurn = false;
-		//flagButtonText.text = "";
+		flagButtonText.text = "";
+        //Clear messages from previous message list
+        //Also clear out message index list
+        for (int i=0; i<11; i++) 
+        {
+            if(messageGameObjs.Count>0)
+            {
+                Destroy(messageGameObjs[0]);
+                messageGameObjs.RemoveAt(0);
+            }
+            if(displayedMessages.Count>0)
+            {
+                displayedMessages.RemoveAt(0);
+            }
+            
+        }
 	}
 
 	public void doTurn()
@@ -107,21 +122,7 @@ public class EmailBoxFunctions : MonoBehaviour {
         
         //Debug.Log(message);
 
-        //Clear messages from previous message list
-        //Also clear out message index list
-		for (int i=0; i<11; i++) 
-		{
-			if(messageGameObjs.Count>0)
-			{
-			Destroy(messageGameObjs[0]);
-			messageGameObjs.RemoveAt(0);
-			}
-			if(displayedMessages.Count>0)
-			{
-				displayedMessages.RemoveAt(0);
-			}
 
-		}
 
 		GameObject clone;
 

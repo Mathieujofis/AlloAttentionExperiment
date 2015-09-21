@@ -47,13 +47,13 @@ public class StockTickerFunctions : MonoBehaviour {
 			{
 				if(prevPercentChange > 0 && percentChange > 0)
                 {
-					confirmText.text="Bought shares. Correct!";
+					confirmText.text="Bought shares.";
                     //System.IO.File.AppendAllText("stocktickerbox.txt", "true" + System.Environment.NewLine);
 					controllerScript.recordExp2Answer(true);
                 }
 				else
                 {
-					confirmText.text="Bought shares. Wrong.";
+					confirmText.text="Bought shares.";
                     //System.IO.File.AppendAllText("stocktickerbox.txt", "false" + System.Environment.NewLine);
 					controllerScript.recordExp2Answer(false);
                 }
@@ -68,13 +68,13 @@ public class StockTickerFunctions : MonoBehaviour {
 			{
 				if(prevPercentChange <= 0 && percentChange <=0)
                 {
-					confirmText.text="Sold shares. Correct!.";
+					confirmText.text="Sold shares.";
                     //System.IO.File.AppendAllText("stocktickerbox.txt", "true" + System.Environment.NewLine);
 					controllerScript.recordExp2Answer(true);
                 }
 				else
                 {
-					confirmText.text="Sold shares. Wrong.";
+					confirmText.text="Sold shares.";
                     //System.IO.File.AppendAllText("stocktickerbox.txt", "false" + System.Environment.NewLine);
 					controllerScript.recordExp2Answer(false);
                 }
@@ -93,9 +93,10 @@ public class StockTickerFunctions : MonoBehaviour {
 	public void waitForTurn()
 	{
 		currentTurn = false;
-		//buyButtonText.text = "";
-		//sellButtonText.text = "";
-		//confirmText.text="";
+		buyButtonText.text = "";
+		sellButtonText.text = "";
+        tickerText.text = "";
+		confirmText.text="";
 	}
 
 	public void doTurn()

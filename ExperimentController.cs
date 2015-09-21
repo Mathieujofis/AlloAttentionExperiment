@@ -101,14 +101,19 @@ public class ExperimentController : MonoBehaviour {
 
 				increased = false;
 
-                prevShowShapes = showShapes;
-				showShapes = Random.Range (0, 3);
+                //prevShowShapes = showShapes;
+				//showShapes = Random.Range (0, 3);
 
-                while(showShapes == prevShowShapes)
-                    showShapes = Random.Range (0, 3);
+
+                //while(showShapes == prevShowShapes)
+                    //showShapes = Random.Range (0, 3);
+
+
 
 				createShapes (showShapes);
-
+				showShapes++;
+				if(showShapes%3==0)
+					showShapes = 0;
 
 				//Debug.Log (showShapes);
 
@@ -155,11 +160,12 @@ public class ExperimentController : MonoBehaviour {
 			if (timeLimit > 0) {
 				timeLimit -= Time.deltaTime;
 			} else {
-                prevWidget = chooseWidget;
-				chooseWidget = Random.Range (0, 3);
+                //prevWidget = chooseWidget;
+				//chooseWidget = Random.Range (0, 3);
 
-                while(chooseWidget == prevWidget)
-                    chooseWidget = Random.Range (0, 3);
+                //while(chooseWidget == prevWidget)
+                    //chooseWidget = Random.Range (0, 3);
+
 
 				timeLimit = exp2TimeLimit;
 				if(chooseWidget==0)
@@ -193,6 +199,11 @@ public class ExperimentController : MonoBehaviour {
 					mathPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
 					emailPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
 				}
+
+				chooseWidget++;
+
+				if(chooseWidget%3==0)
+					chooseWidget = 0;
 				
 			}
 
