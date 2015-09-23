@@ -8,6 +8,10 @@ public class ExperimentController : MonoBehaviour {
 
 	GameObject shape;
 	List<GameObject> shapes;
+
+    GameObject mathWindow;
+    GameObject emailWindow;
+    GameObject stockWindow;
 	
 	public int numShapes = 10;
 	public int numShapesThatScale = 1;
@@ -53,6 +57,11 @@ public class ExperimentController : MonoBehaviour {
     Canvas canvas;
 	void Start () {
 		shapes= new List<GameObject>();
+
+        mathWindow = GameObject.Find ("Math Window");
+        emailWindow = GameObject.Find ("Email Window");
+        stockWindow = GameObject.Find ("Stock Window");
+       
 
 		increased = false;
 		if (experiment == 1)
@@ -170,9 +179,15 @@ public class ExperimentController : MonoBehaviour {
 				timeLimit = exp2TimeLimit;
 				if(chooseWidget==0)
 				{
+                    mathWindow.SetActive(false);
+                    emailWindow.SetActive(false);
+                    stockWindow.SetActive(true);
+
 					stockTickerScript.doTurn();
 					mathBoxScript.waitForTurn();
 					emailBoxScript.waitForTurn();
+
+
 	
 		
 					stockPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
@@ -181,9 +196,15 @@ public class ExperimentController : MonoBehaviour {
 				}
 				else if(chooseWidget==1)
 				{
+                    mathWindow.SetActive(true);
+                    emailWindow.SetActive(false);
+                    stockWindow.SetActive(false);
+
 					mathBoxScript.doTurn();
 					stockTickerScript.waitForTurn();
 					emailBoxScript.waitForTurn();
+
+
 
 					stockPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
 					mathPanelImage.color = new Color(1.0F,1.0F,1.0F,0.7F);
@@ -191,9 +212,15 @@ public class ExperimentController : MonoBehaviour {
 				}
 				else if(chooseWidget==2)
 				{
+                    mathWindow.SetActive(false);
+                    emailWindow.SetActive(true);
+                    stockWindow.SetActive(false);
+
 					emailBoxScript.doTurn();
 					mathBoxScript.waitForTurn();
 					stockTickerScript.waitForTurn();
+
+
 
 					stockPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
 					mathPanelImage.color =  new Color(1.0F,1.0F,1.0F,0.1F);
